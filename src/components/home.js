@@ -2,7 +2,7 @@ import React,{ Component } from 'react';
 
 // COMPONENTS
 import Featured from './featured';
-//import Subscriptions from './subscriptions';
+import Subscriptions from './subscriptions';
 //import Blocks from './blocks';
 //import Poll from './poll';
 
@@ -31,6 +31,7 @@ class Home extends Component {
         return(
             <div>
                 <Featured slides={this.state.home.slider}/>
+                <Subscriptions/>
             </div>
    
         )
