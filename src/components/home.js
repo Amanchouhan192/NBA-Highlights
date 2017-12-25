@@ -15,9 +15,8 @@ class Home extends Component{
     }
 
     componentDidmount(){
-        fetch(URL_HOME,{
-            method:'GET'
-        }).then(response=>response.json())
+        fetch(URL_HOME,{method:'GET'})
+        .then(response=>response.json())
         .then(json=>{
             this.setState({
                 home:json
