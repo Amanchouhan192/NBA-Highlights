@@ -11,7 +11,21 @@ class Subscriptions extends Component{
     }
 
     saveSubscription=(email)=>{
-        
+        const URL_EMAIL="http://localhost:3004/subscription"
+
+        fetch(URL_EMAIL,{
+            method:'post',
+            headers:{
+                'Accept':'application/json',
+                'Content-Type':'application/json',
+            },
+            body:JSON.stringify({email})
+        }).then(response=>response.json())
+          .then(()=>{
+                this.setState({
+                    email:''
+                })
+           })
     }
 
     handleSubmit=(event)=>{
@@ -22,14 +36,14 @@ class Subscriptions extends Component{
         if(regex.test(email)){
             this.saveSubscription(email);
         }else{
-
+            
         }
     }
 
     onChangeInput=(event)=>{
-        this.setState={
+        this.setState({
             email:event.target.value
-        }
+        })
     }
 
     render(){
