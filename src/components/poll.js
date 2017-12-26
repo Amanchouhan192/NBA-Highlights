@@ -8,7 +8,7 @@ class Poll extends Component{
         super(props);
 
         this.state={
-            pollTeams:''
+            pollTeams:[]
         }
     }
 
@@ -17,7 +17,6 @@ class Poll extends Component{
             method:'GET'
         }).then(response=>response.json())
           .then(json=>{
-              console.log(json)
             this.setState({
                 pollTeams:json
             })
@@ -29,7 +28,18 @@ class Poll extends Component{
     }
 
     renderPoll(){
+
+        const position=['1st','2nd','3rd']
         
+        return this.state.pollTeams.map((item,index)=>{
+            return(
+                <div key={item.id} className="poll_item">
+                <img alt={item.name} src={`/images/teams/${item.logo}`}/>
+                <h4>{position[index]}</h4>
+                <div>{item.count} Votes</div>
+                </div>
+            )
+        })
     }
 
     render(){
