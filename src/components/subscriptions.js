@@ -1,69 +1,89 @@
-import React,{Component} from 'react'
+import React, {Component} from 'react';
 
-class Subscriptions extends Component{
+class Subscriptions extends Component {
+    constructor(){
+        super()
 
-    constructor(props){
-        super(props);
-
-        this.state={
-            email:''
+        this.state = {
+            email:'',
+            error:false,
+            success:false
         }
     }
 
-    saveSubscription=(email)=>{
-        const URL_EMAIL="http://localhost:3004/subscription"
 
-        fetch(URL_EMAIL,{
-            method:'post',
-            headers:{
-                'Accept':'application/json',
-                'Content-Type':'application/json',
-            },
-            body:JSON.stringify({email})
-        }).then(response=>response.json())
-          .then(()=>{
+    clearMessages() {
+        setTimeout(function(){
                 this.setState({
-                    email:''
+                    error:false,
+                    success:false
                 })
-           })
+            }.bind(this),3000)
+    }
+    
+
+    saveSubscription = (email) => {
+        const URL_EMAIL = 'http://localhost:3004/subcriptions'
+
+        fetch(URL_EMAIL, {
+        method: 'post',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({email})
+        }).then(res=>res.json())
+        .then(()=>{
+            this.setState({
+                email:'',
+                success:true
+            })
+        });
     }
 
-    handleSubmit=(event)=>{
+
+    handleSumbmit = (event) => {
         event.preventDefault();
-        let email=this.state.email;
-        let regex=/\$+@\$+\.\$+/;
+        let email = this.state.email;
+        let regex = /\S+@\S+\.\S+/;
 
         if(regex.test(email)){
             this.saveSubscription(email);
         }else{
-            
+            this.setState({error:true})
         }
+        this.clearMessages()
     }
 
-    onChangeInput=(event)=>{
+    onChangeInput = (event) => {
         this.setState({
             email:event.target.value
         })
     }
 
-    render(){
-        return(
-            <div className="subscribe_panel">
+
+    render() {
+        return (
+            <div className="subcribe_panel">
                 <h3>Subscribe to us</h3>
                 <div>
-                    <form onSubmit={this.handleSubmit}>
-                        <input type="text"
-                        placeholder="youremail@email.com"
-                        value={this.state.email}
+                    <form onSubmit={this.handleSumbmit}>
+                        <input type="text" 
+                        value={this.state.email} 
+                        placeholder="yourmail@gmail.com" 
                         onChange={this.onChangeInput}/>
+                        <div className={this.state.error ? "error show" : "error"}>Check your mail</div>
+                        <div className={this.state.success ? "success show" : "success"}>Thank you</div>
                     </form>
                 </div>
+
                 <small>
-                    something awesome is written here.
-                    Assume this.
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit,sed do eiusmod tempor
+                    incididunt ut labore et dolore magna aliqua.
                 </small>
             </div>
         )
     }
 }
+
 export default Subscriptions;
